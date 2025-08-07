@@ -26,7 +26,7 @@ void SDLWrapper::init(const char* title, int xpos, int ypos, int width, int heig
         renderer = SDL_CreateRenderer(window, -1, 0);
         if(renderer) {
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-            std::cout << "Renderere Created!" << std::endl;
+            std::cout << "Renderer Created!" << std::endl;
         }
 
         isRunning = true;

@@ -2,6 +2,8 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL_FontCache/SDL_FontCache.h>
+#include <iostream>
 #include <string>
 #include <memory>
 #include <vector>
@@ -12,21 +14,25 @@ using Point = std::pair<int,int>;
 extern std::vector<SDL_Color> colors;
 
 class SDLWrapper {
-    protected:
-        SDL_Window* window = nullptr;
-        SDL_Renderer* renderer = nullptr;
-        TTF_Font* font;
     public:
         SDLWrapper();
         ~SDLWrapper();
 
-        void constructApp();
+        void init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
+        
+        void handleEvents();
+        void update();
+        void render();
+        void clean();
 
-        void createTextLabel(const std::string& text, int x, int y, int w, int h);
+        bool running();
 
-        void createTextBox(int x, int y, int w, int h);
-
-        void listenForInput();
-
-        void mapPoints(const std::vector<std::vector<Point>>& points_array);
+    private:
+        bool isRunning;
+        SDL_Window *window;
+        SDL_Renderer *renderer;
+        FC_Font* font;
+        std::string sunMass = "";
+        int stage;
+        int bodyNums = 1; 
 };

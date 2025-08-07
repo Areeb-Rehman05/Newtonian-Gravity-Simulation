@@ -11,11 +11,18 @@ PKG_SEARCH_MODULE(SDL2TTF REQUIRED SDL2_ttf>=2.0.0)
 # ----------- Source Files -----------
 file(GLOB_RECURSE SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
+# Add SDL_FontCache source file
+list(APPEND SOURCES
+    ${CMAKE_SOURCE_DIR}/extern/SDL_FontCache/SDL_FontCache.c
+)
+
+
 add_executable(solarSim ${SOURCES})
 
 # Include headers
 target_include_directories(solarSim PRIVATE
     ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/extern
     ${SDL2_INCLUDE_DIRS}
     ${SDL2TTF_INCLUDE_DIRS}
 )

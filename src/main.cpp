@@ -1,9 +1,19 @@
 #include <../include/SDLWrapper/SDLWrapper.h>
 
-int main () {
-    SDLWrapper* sdl = new SDLWrapper();
+SDLWrapper *program = nullptr;
 
-    sdl->constructApp();
+int main () {
+    program = new SDLWrapper();
+
+    program->init("Newtonian Gravity Simulation", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1440, 900, false);
+
+    while(program->running()) {
+        program->handleEvents();
+        program->update();
+        program->render();
+    }
+
+    program->clean();
 
     return 0;
 }

@@ -4,6 +4,8 @@
 
 class advancedSimulation : public AbstractSimulation {
     public:
+        advancedSimulation();
+
         advancedSimulation(std::vector<std::shared_ptr<Body>> b, double sunMass);
 
         ~advancedSimulation();

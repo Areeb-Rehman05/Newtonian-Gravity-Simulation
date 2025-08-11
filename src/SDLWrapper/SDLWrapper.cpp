@@ -10,7 +10,6 @@ SDLWrapper::~SDLWrapper() {
 
 void SDLWrapper::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) {
     int flags = 0;
-    stage = 1;
     if(fullscreen) {
         flags = SDL_WINDOW_FULLSCREEN;
     }
@@ -28,12 +27,23 @@ void SDLWrapper::init(const char* title, int xpos, int ypos, int width, int heig
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             std::cout << "Renderer Created!" << std::endl;
         }
-
         isRunning = true;
-        font = FC_CreateFont();  
-        FC_LoadFont(font, renderer, "../fonts/ARIAL.TTF", 30, FC_MakeColor(255,255,255,255), TTF_STYLE_NORMAL); 
+        changeState(ScreenID::Menu);
+        currentState.get()->init(this);
     } else {
         isRunning = false;
+    }
+}
+
+void SDLWrapper::changeState(ScreenID newScreen) {
+    switch (newScreen) {
+        case ScreenID::Menu:
+            currentState = std::make_unique<menuScreen>();
+            break;
+        case ScreenID::Running:
+            currentState = std::make_unique<runningScreen>();
+            currentState.get()->init(this);
+            break;
     }
 }
 
@@ -45,61 +55,30 @@ void SDLWrapper::handleEvents() {
         case SDL_QUIT:
             isRunning = false;
             break;
-
-        case SDL_TEXTINPUT:
-            if(isdigit(event.text.text[0])) {
-                sunMass += event.text.text;
-            }
-            break;
-
-        case SDL_KEYDOWN:
-            if(event.key.keysym.sym == SDLK_BACKSPACE && !sunMass.empty()) {
-                sunMass.pop_back();
-            } else if (event.key.keysym.sym == SDLK_RETURN) {
-                    stage = 2;  
-            }
-            break;
-
         default:
-        
             break;
     }
+    currentState->handleEvents(this, event);
 }
 
 void SDLWrapper::update() {
-    if (stage == 2) {
-
-    }
+    currentState->update(this);
 }
 
 void SDLWrapper::render() {
     SDL_RenderClear(renderer);
-    //this is where we would add stuff to render
-    std::string inputFields = "";
-    switch (stage) {
-        case 1:
-            //Draw the sunmass onto the screen
-            FC_Draw(font, renderer, 50, 50, "Sun Mass: %s \n", sunMass.c_str());
-
-            //Allow the user to add more bodies and change their mass
-            FC_Draw(font, renderer, 400, 80, "Add Bodies");
-            for(int i = 0; i < bodyNums; i++) {
-                inputFields += "Body " + std::to_string(i+1) + "\n";
-            }
-            FC_Draw(font, renderer, 50, 80, inputFields.c_str());
-            break;
-        case 2:
-
-        default:
-            break;
-    }
+    currentState->render(this);
     SDL_RenderPresent(renderer);
+}
+
+SDL_Renderer* SDLWrapper::getRenderer() {
+    return renderer;
 }
 
 void SDLWrapper::clean() {
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
-    FC_FreeFont(font);
+    // FC_FreeFont(font);
     SDL_Quit();
     std::cout << "Program Cleaned" << std::endl;
 }

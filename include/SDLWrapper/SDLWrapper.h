@@ -1,8 +1,7 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
-#include <SDL_FontCache/SDL_FontCache.h>
+#include <SDLWrapper/Screen.h>
 #include <iostream>
 #include <string>
 #include <memory>
@@ -11,28 +10,36 @@
 
 using Point = std::pair<int,int>;
 
-extern std::vector<SDL_Color> colors;
+struct simulationData {
+    std::string sunMass = "";
+    int bodyNums = 1; 
+};
+
+enum class ScreenID {Menu, Running};
+
+class Screen;
 
 class SDLWrapper {
     public:
+        simulationData data;
+
         SDLWrapper();
         ~SDLWrapper();
 
         void init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
+        void changeState(ScreenID newScreen);
         
         void handleEvents();
         void update();
         void render();
-        void clean();
 
+        SDL_Renderer* getRenderer();
         bool running();
+        void clean();
 
     private:
         bool isRunning;
         SDL_Window *window;
         SDL_Renderer *renderer;
-        FC_Font* font;
-        std::string sunMass = "";
-        int stage;
-        int bodyNums = 1; 
+        std::unique_ptr<Screen> currentState;
 };

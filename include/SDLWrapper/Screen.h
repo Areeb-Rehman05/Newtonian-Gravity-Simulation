@@ -5,6 +5,7 @@
 #include <SDLWrapper/SDLWrapper.h>
 #include <Simulations/AdvancedSimulation.h>
 #include <string>
+#include <SDLWrapper/Button.h>
 #include <SDL2/SDL_ttf.h>
 
 class SDLWrapper;
@@ -28,6 +29,7 @@ class menuScreen : public Screen {
         void render(SDLWrapper* sdl) override;
     private:
         FC_Font* font;
+        Button addBodiesButton{0,0,0,0, {0,0,0}, {0,0,0}};
 };
 
 class runningScreen : public Screen {

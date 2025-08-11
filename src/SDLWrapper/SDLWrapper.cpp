@@ -66,6 +66,7 @@ void SDLWrapper::update() {
 }
 
 void SDLWrapper::render() {
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
     currentState->render(this);
     SDL_RenderPresent(renderer);

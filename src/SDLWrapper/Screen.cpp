@@ -15,6 +15,8 @@ void menuScreen::init(SDLWrapper* sdl) {
     font = FC_CreateFont();  
     FC_LoadFont(font, sdl->getRenderer(), "../fonts/ARIAL.TTF", 30, FC_MakeColor(255,255,255,255), TTF_STYLE_NORMAL); 
     std::cout << "Font Loaded!" << std::endl;
+
+    addBodiesButton = Button(395, 75, 170, 40, {0, 0, 0}, {0, 0, 0});
 }
 
 void menuScreen::handleEvents(SDLWrapper* sdl, SDL_Event& event) {
@@ -36,12 +38,17 @@ void menuScreen::handleEvents(SDLWrapper* sdl, SDL_Event& event) {
         default:
             break;
     }
+    if (addBodiesButton.handleClick(event)) {
+        sdl->data.bodyNums++;
+    }
 }
 
 void menuScreen::update(SDLWrapper* sdl) {}
 
 void menuScreen::render(SDLWrapper* sdl) {
     std::string inputFields;
+
+    addBodiesButton.render(sdl->getRenderer());
 
     //Draw the sunmass onto the screen
     FC_Draw(font, sdl->getRenderer(), 50, 50, "Sun Mass: %s \n", sdl->data.sunMass.c_str());

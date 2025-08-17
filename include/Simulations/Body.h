@@ -9,5 +9,5 @@ class Body {
         Eigen::Vector2d velocity;
         double mass;
 
-        Body (double x, double y, double m);
+        Body (double xpos, double ypos, double xvec, double yvec, double m);
 };

@@ -2,6 +2,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDLWrapper/Screen.h>
+#include <Simulations/Body.h>
 #include <iostream>
 #include <string>
 #include <memory>
@@ -12,7 +13,7 @@ using Point = std::pair<int,int>;
 
 struct simulationData {
     std::string sunMass = "";
-    int bodyNums = 1; 
+    std::vector<Body> bodies;
 };
 
 enum class ScreenID {Menu, Running};

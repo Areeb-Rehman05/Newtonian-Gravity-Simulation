@@ -7,6 +7,7 @@
 #include <string>
 #include <SDLWrapper/Button.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDLWrapper/TextBox.h>
 
 class SDLWrapper;
 
@@ -29,7 +30,10 @@ class menuScreen : public Screen {
         void render(SDLWrapper* sdl) override;
     private:
         FC_Font* font;
+        TTF_Font* textBoxFont;
         Button addBodiesButton{0,0,0,0, {0,0,0}, {0,0,0}};
+        TextBox sunMassTextBox{0,0,0,0, nullptr, nullptr};
+        std::vector<TextBox> bodiesTextBoxes;
 };
 
 class runningScreen : public Screen {

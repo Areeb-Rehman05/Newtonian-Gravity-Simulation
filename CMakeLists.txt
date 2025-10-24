@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 INCLUDE(FindPkgConfig)
 PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
 PKG_SEARCH_MODULE(SDL2TTF REQUIRED SDL2_ttf>=2.0.0)
+PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
 
 # ----------- Source Files -----------
 file(GLOB_RECURSE SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
@@ -25,10 +26,12 @@ target_include_directories(solarSim PRIVATE
     ${CMAKE_SOURCE_DIR}/extern
     ${SDL2_INCLUDE_DIRS}
     ${SDL2TTF_INCLUDE_DIRS}
+    ${SDL2IMAGE_INCLUDE_DIRS}
 )
 
 # Link Everything
 target_link_libraries(solarSim
     ${SDL2_LIBRARIES}
     ${SDL2TTF_LIBRARIES}
+    ${SDL2IMAGE_LIBRARIES}
 )

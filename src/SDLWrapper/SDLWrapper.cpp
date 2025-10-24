@@ -8,41 +8,46 @@ SDLWrapper::~SDLWrapper() {
 
 }
 
-void SDLWrapper::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) {
-    int flags = 0;
-    if(fullscreen) {
-        flags = SDL_WINDOW_FULLSCREEN;
-    }
-
-    if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
-        std::cout << "Subsystems Initialized!" << std::endl;
-
-        window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
-        if(window) {
-            std::cout << "Window Created!" << std::endl;
-        }
-
-        renderer = SDL_CreateRenderer(window, -1, 0);
-        if(renderer) {
-            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-            std::cout << "Renderer Created!" << std::endl;
-        }
-        isRunning = true;
-        changeState(ScreenID::Menu);
-        currentState.get()->init(this);
+void SDLWrapper::init(std::string title, int width, int height) {
+    if(SDL_Init(SDL_INIT_VIDEO) < 0) {
+        printf("SDL Could not initialize! SDL_Error: %s\n", SDL_GetError());
     } else {
-        isRunning = false;
+        //Creat the window
+        window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
+        if(window == NULL) {
+            printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
+        } else {
+            //Create renderer from window
+            renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+            if(renderer == NULL) {
+                printf("Renderer could not be created! SDL_Error: %s", SDL_GetError());
+            } else {
+                //Initialize PNG Loading (Only important if we want to make a custom button, might make it in paint.net)
+                int imgFlags = IMG_INIT_PNG;
+                if(!(IMG_Init(imgFlags) & imgFlags)) {
+                    printf("SDL_Image could not initialize! SDLImage_Error: %s", IMG_GetError());
+                }
+
+                //Initialize SDL_TTF font loading 
+                if(TTF_Init() == -1) {
+                    printf("SDL_TFF could not intitialize! SDL_TTF Error: %s\n", TTF_GetError());
+                }
+                isRunning = true;
+                SCREEN_WIDTH = width;
+                SCREEN_HEIGHT = height;
+                changeState(ScreenID::Menu);
+            }
+        }
     }
 }
 
 void SDLWrapper::changeState(ScreenID newScreen) {
     switch (newScreen) {
         case ScreenID::Menu:
-            currentState = std::make_unique<menuScreen>();
+            currentScreen = new menuScreen();
+            currentScreen->init(this);
             break;
         case ScreenID::Running:
-            currentState = std::make_unique<runningScreen>();
-            currentState.get()->init(this);
             break;
     }
 }
@@ -58,17 +63,17 @@ void SDLWrapper::handleEvents() {
         default:
             break;
     }
-    currentState->handleEvents(this, event);
+    currentScreen->handleEvents(this, event);
 }
 
 void SDLWrapper::update() {
-    currentState->update(this);
+    currentScreen->update(this);
 }
 
 void SDLWrapper::render() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
-    currentState->render(this);
+    currentScreen->render(this);
     SDL_RenderPresent(renderer);
 }
 
@@ -77,14 +82,26 @@ SDL_Renderer* SDLWrapper::getRenderer() {
 }
 
 void SDLWrapper::clean() {
-    SDL_DestroyWindow(window);
+    currentScreen->clean();
+
     SDL_DestroyRenderer(renderer);
-    // FC_FreeFont(font);
+    SDL_DestroyWindow(window);
+    window = NULL;
+    renderer = NULL;
+
+    TTF_Quit();
+    IMG_Quit();
     SDL_Quit();
-    std::cout << "Program Cleaned" << std::endl;
 }
 
 bool SDLWrapper::running() {
     return isRunning;
 }
 
+int SDLWrapper::getScreenWidth() {
+    return SCREEN_WIDTH;
+}
+
+int SDLWrapper::getScreenHeight() {
+    return SCREEN_HEIGHT;
+}

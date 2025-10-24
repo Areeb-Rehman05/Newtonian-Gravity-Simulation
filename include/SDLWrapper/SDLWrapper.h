@@ -1,6 +1,8 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
 #include <SDLWrapper/Screen.h>
 #include <Simulations/Body.h>
 #include <iostream>
@@ -11,23 +13,16 @@
 
 using Point = std::pair<int,int>;
 
-struct simulationData {
-    std::string sunMass = "";
-    std::vector<Body> bodies;
-};
-
 enum class ScreenID {Menu, Running};
 
 class Screen;
 
 class SDLWrapper {
     public:
-        simulationData data;
-
         SDLWrapper();
         ~SDLWrapper();
 
-        void init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
+        void init(std::string title, int width, int height);
         void changeState(ScreenID newScreen);
         
         void handleEvents();
@@ -35,6 +30,9 @@ class SDLWrapper {
         void render();
 
         SDL_Renderer* getRenderer();
+        int getScreenWidth();
+        int getScreenHeight();
+
         bool running();
         void clean();
 
@@ -42,5 +40,8 @@ class SDLWrapper {
         bool isRunning;
         SDL_Window *window;
         SDL_Renderer *renderer;
-        std::unique_ptr<Screen> currentState;
+        Screen* currentScreen;
+
+        int SCREEN_WIDTH;
+        int SCREEN_HEIGHT;
 };

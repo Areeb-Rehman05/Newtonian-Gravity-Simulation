@@ -4,6 +4,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDLWrapper/SDLWrapper.h>
 #include <SDLWrapper/textureWrapper.h>
+#include <SDLWrapper/shapeTextureWrapper.h>
 #include <string>
 
 class SDLWrapper;
@@ -29,5 +30,6 @@ class menuScreen : public Screen {
         void clean();
     private:
         Texture sunMass;
-        Texture textBox;
+        shapeTexture sunTextBox;
+        shapeTexture textLine;
 };

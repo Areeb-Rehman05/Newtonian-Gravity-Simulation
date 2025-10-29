@@ -13,12 +13,20 @@
 
 using Point = std::pair<int,int>;
 
-enum class ScreenID {Menu, Running};
+struct userData {
+    int totalBodies;
+    int sunMass;
+    std::vector<Body> bodies;
+};
+
+enum class ScreenID {Menu, Bodies, Running};
 
 class Screen;
 
 class SDLWrapper {
     public:
+        userData sharedData;
+
         SDLWrapper();
         ~SDLWrapper();
 

@@ -7,7 +7,7 @@ shapeTexture::shapeTexture() {
 }
 
 shapeTexture::~shapeTexture() {
-
+    free();
 }
 
 void shapeTexture::setDimensions(int x, int y, int w, int h) {
@@ -36,4 +36,10 @@ void shapeTexture::render(SDL_Renderer* renderer) {
 
 SDL_Rect shapeTexture::getRect() {
     return shapeRect;
+}
+
+void shapeTexture::free() {
+    shapeRect = {0, 0, 0, 0};
+
+    shapeColor = {0, 0, 0, 255};
 }

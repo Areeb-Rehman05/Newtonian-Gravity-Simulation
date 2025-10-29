@@ -1,3 +1,5 @@
+#pragma once
+
 //Texture wrapper class that is inspired by Lazy Foo's SDL2 tutorial
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>

@@ -46,22 +46,24 @@ bool Texture::loadFromRenderedText(std::string textureText, SDL_Color textColor,
     //Free previous texture
     free();
 
-    //Render the text surface from font
-    SDL_Surface* textSurface = TTF_RenderText_Blended(font, textureText.c_str(), textColor);
-    if(textSurface == NULL) {
-        printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
-    } else {
-        //Create texture from surface pixels
-        texture = SDL_CreateTextureFromSurface(renderer, textSurface);
-        if(texture == NULL) {
-            printf("Unable to create texture from rendererd text! SDL_Error: %s\n", SDL_GetError());
+    if(textureText.length() > 0) {
+        //Render the text surface from font
+        SDL_Surface* textSurface = TTF_RenderText_Blended(font, textureText.c_str(), textColor);
+        if(textSurface == NULL) {
+            printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
         } else {
-            width = textSurface->w;
-            height = textSurface->h;
-        }
+            //Create texture from surface pixels
+            texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+            if(texture == NULL) {
+                printf("Unable to create texture from rendererd text! SDL_Error: %s\n", SDL_GetError());
+            } else {
+                width = textSurface->w;
+                height = textSurface->h;
+            }
 
-        //Remove the old surface
-        SDL_FreeSurface(textSurface);
+            //Remove the old surface
+            SDL_FreeSurface(textSurface);
+        }
     }
 
     return texture != NULL;

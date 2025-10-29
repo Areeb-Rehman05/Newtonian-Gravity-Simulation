@@ -1,4 +1,5 @@
-//Texture wrapper class that is inspired by Lazy Foo's SDL2 tutorial
+#pragma once
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
@@ -26,6 +27,9 @@ class shapeTexture {
 
         //Get Rect
         SDL_Rect getRect();
+
+        //Free up memory 
+        void free();
 
     private:
         //Dimensions of the Rect

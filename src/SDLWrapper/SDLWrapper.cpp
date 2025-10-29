@@ -1,4 +1,5 @@
 #include <SDLWrapper/SDLWrapper.h>
+#include <iostream>
 
 SDLWrapper::SDLWrapper() {
 
@@ -36,6 +37,7 @@ void SDLWrapper::init(std::string title, int width, int height) {
                 SCREEN_WIDTH = width;
                 SCREEN_HEIGHT = height;
                 changeState(ScreenID::Menu);
+                SDL_StartTextInput();
             }
         }
     }
@@ -47,7 +49,12 @@ void SDLWrapper::changeState(ScreenID newScreen) {
             currentScreen = new menuScreen();
             currentScreen->init(this);
             break;
+        case ScreenID::Bodies:
+            currentScreen = new bodiesScreen();
+            currentScreen->init(this);
+            break;
         case ScreenID::Running:
+            std::cout << "Running!" << std::flush << std::endl;
             break;
     }
 }
@@ -82,7 +89,7 @@ SDL_Renderer* SDLWrapper::getRenderer() {
 }
 
 void SDLWrapper::clean() {
-    currentScreen->clean();
+    currentScreen->free();
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

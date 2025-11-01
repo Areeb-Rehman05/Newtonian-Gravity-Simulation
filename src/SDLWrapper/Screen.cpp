@@ -1,5 +1,7 @@
 #include <SDLWrapper/Screen.h>
 
+
+
 Screen::Screen() {
 
 }
@@ -13,20 +15,20 @@ menuScreen::~menuScreen() {
 
 void menuScreen::init(SDLWrapper* sdl) {
     SDL_Color textColor = {255, 255, 255};
-    sunMass.setFont("/home/areeb-linux/codingProjects/Newtonian-Gravity-Simulation/fonts/ARIAL.TTF", 28);
+    sunMass.setFont("../fonts/ARIAL.TTF", 28);
     sunMass.loadFromRenderedText("Sun Mass: ", textColor, sdl->getRenderer());
 
-    bodyCount.setFont("/home/areeb-linux/codingProjects/Newtonian-Gravity-Simulation/fonts/ARIAL.TTF", 28);
+    bodyCount.setFont("../fonts/ARIAL.TTF", 28);
     bodyCount.loadFromRenderedText("Body Count: ", textColor, sdl->getRenderer());
 
     sunMass_Input.createTextBox(250, 50, 150, 30, {255, 255, 255, 255});
-    sunMass_Input.setFont("/home/areeb-linux/codingProjects/Newtonian-Gravity-Simulation/fonts/ARIAL.TTF", 28, {0, 0, 0, 255});
+    sunMass_Input.setFont("../fonts/ARIAL.TTF", 28, {0, 0, 0, 255});
 
     bodyCount_Input.createTextBox(260, 100, 150, 30, {255, 255, 255, 255});
-    bodyCount_Input.setFont("/home/areeb-linux/codingProjects/Newtonian-Gravity-Simulation/fonts/ARIAL.TTF", 28, {0, 0, 0, 255});
+    bodyCount_Input.setFont("../fonts/ARIAL.TTF", 28, {0, 0, 0, 255});
 
     nextScreenButton.createButton(1000, 50, 150, 30, {255, 255, 255, 255});
-    nextScreenButton.setFont("/home/areeb-linux/codingProjects/Newtonian-Gravity-Simulation/fonts/ARIAL.TTF", 28, {0, 0, 0, 255});
+    nextScreenButton.setFont("../fonts/ARIAL.TTF", 28, {0, 0, 0, 255});
     nextScreenButton.setText("Submit!", sdl->getRenderer());
 }
 
@@ -74,33 +76,37 @@ void bodiesScreen::init(SDLWrapper* sdl) {
     i = 1;
 
     textColor = {255, 255, 255};
-    bodyPositions.setFont("/home/areeb-linux/codingProjects/Newtonian-Gravity-Simulation/fonts/ARIAL.TTF", 28);
+    bodyPositions.setFont("../fonts/ARIAL.TTF", 28);
     bodyPositions.loadFromRenderedText("Body " + std::to_string(i) + " Positions(x, y): ", textColor, sdl->getRenderer());
 
-    bodyVectors.setFont("/home/areeb-linux/codingProjects/Newtonian-Gravity-Simulation/fonts/ARIAL.TTF", 28);
+    bodyVectors.setFont("../fonts/ARIAL.TTF", 28);
     bodyVectors.loadFromRenderedText("Body " + std::to_string(i) + " Vectors(x, y): ", textColor, sdl->getRenderer());
 
-    mass.setFont("/home/areeb-linux/codingProjects/Newtonian-Gravity-Simulation/fonts/ARIAL.TTF", 28);
+    mass.setFont("../fonts/ARIAL.TTF", 28);
     mass.loadFromRenderedText("Body " + std::to_string(i) + " Mass: ", textColor, sdl->getRenderer());
 
+    scale.setFont("../fonts/ARIAL.TTF", 28);
+
     xpos.createTextBox(500, 50, 75, 30, {255, 255, 255, 255});
-    xpos.setFont("/home/areeb-linux/codingProjects/Newtonian-Gravity-Simulation/fonts/ARIAL.TTF", 28, {0, 0, 0, 255});
+    xpos.setFont("../fonts/ARIAL.TTF", 28, {0, 0, 0, 255});
 
     ypos.createTextBox(600, 50, 75, 30, {255, 255, 255, 255});
-    ypos.setFont("/home/areeb-linux/codingProjects/Newtonian-Gravity-Simulation/fonts/ARIAL.TTF", 28, {0, 0, 0, 255});
+    ypos.setFont("../fonts/ARIAL.TTF", 28, {0, 0, 0, 255});
 
     xvec.createTextBox(500, 100, 75, 30, {255, 255, 255, 255});
-    xvec.setFont("/home/areeb-linux/codingProjects/Newtonian-Gravity-Simulation/fonts/ARIAL.TTF", 28, {0, 0, 0, 255});
+    xvec.setFont("../fonts/ARIAL.TTF", 28, {0, 0, 0, 255});
 
     yvec.createTextBox(600, 100, 75, 30, {255, 255, 255, 255});
-    yvec.setFont("/home/areeb-linux/codingProjects/Newtonian-Gravity-Simulation/fonts/ARIAL.TTF", 28, {0, 0, 0, 255});
+    yvec.setFont("../fonts/ARIAL.TTF", 28, {0, 0, 0, 255});
 
     massInput.createTextBox(500, 150, 150, 30, {255, 255, 255, 255});
-    massInput.setFont("/home/areeb-linux/codingProjects/Newtonian-Gravity-Simulation/fonts/ARIAL.TTF", 28, {0, 0, 0, 255});
+    massInput.setFont("../fonts/ARIAL.TTF", 28, {0, 0, 0, 255});
 
-    nextScreenButton.createButton(1000, 50, 150, 30, {255, 255, 255, 255});
-    nextScreenButton.setFont("/home/areeb-linux/codingProjects/Newtonian-Gravity-Simulation/fonts/ARIAL.TTF", 28, {0, 0, 0, 255});
+    nextScreenButton.createButton(1000, 50, 300, 30, {255, 255, 255, 255});
+    nextScreenButton.setFont("../fonts/ARIAL.TTF", 28, {0, 0, 0, 255});
     nextScreenButton.setText("Submit!", sdl->getRenderer());
+
+    simGraph.init(100, 250, 600, 600);
 }
 
 void bodiesScreen::handleEvents(SDLWrapper* sdl, SDL_Event& event) {
@@ -121,6 +127,7 @@ void bodiesScreen::handleEvents(SDLWrapper* sdl, SDL_Event& event) {
             Body newBody(xPosition, yPosition, xVector, yVector, bodyMass);
 
             sdl->sharedData.bodies.push_back(newBody);
+            scale.loadFromRenderedText("Scale: " + simGraph.getScale(), textColor, sdl->getRenderer());
 
             i++; 
             bodyPositions.loadFromRenderedText("Body " + std::to_string(i) + " Positions(x, y): ", textColor, sdl->getRenderer());
@@ -132,20 +139,26 @@ void bodiesScreen::handleEvents(SDLWrapper* sdl, SDL_Event& event) {
             xvec.clear(sdl->getRenderer());
             yvec.clear(sdl->getRenderer());
             massInput.clear(sdl->getRenderer());
-        } else {
+        } else if (i >= sdl->sharedData.totalBodies) {
             sdl->changeState(ScreenID::Running);
         }
     }
 }
 
 void bodiesScreen::update(SDLWrapper* sdl) {
+    simGraph.updateData(sdl->sharedData.bodies);
+    scale.loadFromRenderedText("Scale: " + std::to_string(simGraph.getScale()), textColor, sdl->getRenderer());
 
+    if (i >= sdl->sharedData.totalBodies) {
+        nextScreenButton.setText("Start Simulation!", sdl->getRenderer());
+    }
 }
 
 void bodiesScreen::render(SDLWrapper* sdl) {
     bodyPositions.render(100, 50, sdl->getRenderer());
     bodyVectors.render(100, 100, sdl->getRenderer());
     mass.render(100, 150, sdl->getRenderer());
+    scale.render(1000, 750, sdl->getRenderer());
 
     xpos.render(sdl->getRenderer());
     ypos.render(sdl->getRenderer());
@@ -154,6 +167,8 @@ void bodiesScreen::render(SDLWrapper* sdl) {
     massInput.render(sdl->getRenderer());
 
     nextScreenButton.render(sdl->getRenderer());
+
+    simGraph.render(sdl->getRenderer());
 }
 
 void bodiesScreen::free() {

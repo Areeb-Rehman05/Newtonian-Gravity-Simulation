@@ -53,7 +53,7 @@ void TextBox::handleEvents(SDL_Renderer* renderer, SDL_Event& event) {
 
     if (isSelected) {
         if (event.type == SDL_KEYDOWN) {
-            if (event.key.keysym.sym >= SDLK_0 && event.key.keysym.sym <= SDLK_9) {
+            if (event.key.keysym.sym >= SDLK_0 && event.key.keysym.sym <= SDLK_9 || event.key.keysym.sym == SDLK_MINUS) {
                 stringText += static_cast<char>('0' + (event.key.keysym.sym - SDLK_0));
                 text.loadFromRenderedText(stringText, textColor, renderer);
             } else if (event.key.keysym.sym == SDLK_BACKSPACE && stringText.length() > 0) {

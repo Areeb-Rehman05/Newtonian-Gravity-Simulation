@@ -10,4 +10,7 @@ class Body {
         double mass;
 
         Body (double xpos, double ypos, double xvec, double yvec, double m);
+
+        Eigen::Vector2d getPosition();
+        Eigen::Vector2d getVelocity();
 };

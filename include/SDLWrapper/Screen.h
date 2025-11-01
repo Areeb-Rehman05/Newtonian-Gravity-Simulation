@@ -6,6 +6,7 @@
 #include <SDLWrapper/textureWrapper.h>
 #include <SDLWrapper/TextBox.h>
 #include <SDLWrapper/Button.h>
+#include <SDLWrapper/VectorPreview.h>
 #include <string>
 
 class SDLWrapper;
@@ -55,10 +56,13 @@ class bodiesScreen : public Screen {
         Texture bodyPositions;
         Texture bodyVectors;
         Texture mass;
+        Texture scale;
 
         TextBox xpos, ypos, xvec, yvec, massInput;
 
         Button nextScreenButton;
+
+        VectorPreview simGraph;
 };
 
 // class runningScreen : public Screen {

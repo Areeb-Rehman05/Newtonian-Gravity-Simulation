@@ -140,6 +140,16 @@ void bodiesScreen::handleEvents(SDLWrapper* sdl, SDL_Event& event) {
             yvec.clear(sdl->getRenderer());
             massInput.clear(sdl->getRenderer());
         } else if (i >= sdl->sharedData.totalBodies) {
+            int xPosition = std::stoi(xpos.getText());
+            int yPosition = std::stoi(ypos.getText());
+            int xVector = std::stoi(xvec.getText());
+            int yVector = std::stoi(yvec.getText());
+            int bodyMass = std::stoi(massInput.getText());
+
+            Body newBody(xPosition, yPosition, xVector, yVector, bodyMass);
+
+            sdl->sharedData.bodies.push_back(newBody);
+
             sdl->changeState(ScreenID::Running);
         }
     }
@@ -172,5 +182,73 @@ void bodiesScreen::render(SDLWrapper* sdl) {
 }
 
 void bodiesScreen::free() {
+    bodyPositions.free();
+    bodyVectors.free();
+    mass.free();
+    scale.free();
+    xpos.free();
+    ypos.free();
+    xvec.free();
+    yvec.free();
+    massInput.free();
 
+    nextScreenButton.free();
+
+    simGraph.free();
+}
+
+// ----------- Running Screen ----------
+
+runningScreen::~runningScreen() {
+    free();
+}
+
+void runningScreen::init(SDLWrapper* sdl) {
+    sim.init(sdl->sharedData.bodies, sdl->sharedData.sunMass);
+
+    bodyPositions.clear();
+    bodyPositions.resize(sim.getBodies().size());
+}
+
+void runningScreen::handleEvents(SDLWrapper* sdl, SDL_Event& event) {
+
+}
+
+void runningScreen::update(SDLWrapper* sdl) {
+    int count = 0;
+    for(auto &body : sim.getBodies()) {
+        Point temp = {body.getPosition().x(), body.getPosition().y()};
+        bodyPositions[count].push_back(temp);
+        count++;
+    }
+    sim.simulateFrame(0.01);
+}
+
+void runningScreen::render(SDLWrapper* sdl) {
+    //Clear the screen
+    SDL_SetRenderDrawColor(sdl->getRenderer(), 0, 0, 0, 255);
+    SDL_RenderClear(sdl->getRenderer());
+
+    //Render the sun in the center of the simulation
+    SDL_SetRenderDrawColor(sdl->getRenderer(), 255, 255, 255, 255);
+    SDL_Rect sunRect = {720, 450, sdl->sharedData.sunMass/400 + 4, sdl->sharedData.sunMass/400 + 4};
+    SDL_RenderDrawRect(sdl->getRenderer(), &sunRect);
+
+    //Draw the points on the screen
+    int count = 0;
+    for (auto &body : sim.getBodies()) {
+        SDL_Color color = bodyColors[count % 7];
+
+        SDL_SetRenderDrawColor(sdl->getRenderer(), color.r, color.g, color.b, color.a);
+
+        for (const auto &p : bodyPositions[count]) {
+            SDL_RenderDrawPoint(sdl->getRenderer(), static_cast<int>(p.first) + 720, static_cast<int>(p.second) + 450 );
+        }
+
+        count++;
+    }  
+}
+
+void runningScreen::free() {
+    
 }

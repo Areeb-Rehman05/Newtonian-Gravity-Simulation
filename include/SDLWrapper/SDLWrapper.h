@@ -11,8 +11,6 @@
 #include <vector>
 #include <utility>
 
-using Point = std::pair<int,int>;
-
 struct userData {
     int totalBodies;
     int sunMass;

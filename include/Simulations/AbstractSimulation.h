@@ -6,7 +6,7 @@
 
 class AbstractSimulation {
     protected:
-        std::vector<std::shared_ptr<Body>> allBodies;
+        std::vector<Body> allBodies;
         double sunMass;
 
     public:
@@ -15,7 +15,7 @@ class AbstractSimulation {
 
         virtual ~AbstractSimulation();
 
-        std::vector<std::shared_ptr<Body>> getBodies() const;
+        std::vector<Body> getBodies() const;
 
         virtual void simulateBodyVelocity(double dt, Body& b) = 0;
 

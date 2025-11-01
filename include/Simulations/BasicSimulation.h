@@ -5,7 +5,7 @@
 class basicSimulation : public AbstractSimulation {
     public:
 
-        basicSimulation(std::vector<std::shared_ptr<Body>> b, double sunMass);
+        basicSimulation(std::vector<Body> b, double sunMass);
 
         ~basicSimulation();
 

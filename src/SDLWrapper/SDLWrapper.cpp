@@ -50,11 +50,14 @@ void SDLWrapper::changeState(ScreenID newScreen) {
             currentScreen->init(this);
             break;
         case ScreenID::Bodies:
+            currentScreen->free();
             currentScreen = new bodiesScreen();
             currentScreen->init(this);
             break;
         case ScreenID::Running:
-            std::cout << "Running!" << std::flush << std::endl;
+            currentScreen->free();
+            currentScreen = new runningScreen();
+            currentScreen->init(this);
             break;
     }
 }

@@ -6,9 +6,9 @@ class advancedSimulation : public AbstractSimulation {
     public:
         advancedSimulation();
 
-        advancedSimulation(std::vector<std::shared_ptr<Body>> b, double sunMass);
-
         ~advancedSimulation();
+
+        void init(std::vector<Body> b, double sunMass);
 
         void simulateBodyVelocity(double dt, Body& b) override;
 };

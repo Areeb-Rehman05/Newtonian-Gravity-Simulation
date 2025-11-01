@@ -1,12 +1,16 @@
 #include <Simulations/AdvancedSimulation.h>
 
-advancedSimulation::advancedSimulation(std::vector<std::shared_ptr<Body>> b, double sun) {
+void advancedSimulation::init(std::vector<Body> b, double sun) {
     allBodies = b;
     sunMass = sun;
 }
 
 advancedSimulation::~advancedSimulation() {
-    //Doesn't have to do anything because shared_ptr already cleans up everything :D
+
+}
+
+advancedSimulation::advancedSimulation() {
+    
 }
 
 void advancedSimulation::simulateBodyVelocity(double dt, Body &b) {
@@ -20,13 +24,13 @@ void advancedSimulation::simulateBodyVelocity(double dt, Body &b) {
 
     for (auto &body : allBodies)
     {
-        if (&b != body.get())
+        if (&b != &body)
         {
-            Eigen::Vector2d r = body->position - b.position;
+            Eigen::Vector2d r = body.position - b.position;
             double distance = r.norm();
             Eigen::Vector2d rHat = ((r) / distance);
 
-            acceleration += ((body->mass / std::pow(distance, 2)) * rHat);
+            acceleration += ((body.mass / std::pow(distance, 2)) * rHat);
         }
     }
 

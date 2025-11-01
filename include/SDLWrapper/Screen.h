@@ -7,6 +7,7 @@
 #include <SDLWrapper/TextBox.h>
 #include <SDLWrapper/Button.h>
 #include <SDLWrapper/VectorPreview.h>
+#include <Simulations/AdvancedSimulation.h>
 #include <string>
 
 class SDLWrapper;
@@ -29,7 +30,7 @@ class menuScreen : public Screen {
         void handleEvents(SDLWrapper* sdl, SDL_Event& event) override;
         void update(SDLWrapper* sdl) override;
         void render(SDLWrapper* sdl) override;
-        void free();
+        void free() override;
     private:
         Texture sunMass;
         Texture bodyCount;
@@ -47,7 +48,7 @@ class bodiesScreen : public Screen {
         void handleEvents(SDLWrapper* sdl, SDL_Event& event) override;
         void update(SDLWrapper* sdl) override;
         void render(SDLWrapper* sdl) override;
-        void free();
+        void free() override;
     private:
         int i;
 
@@ -65,14 +66,29 @@ class bodiesScreen : public Screen {
         VectorPreview simGraph;
 };
 
-// class runningScreen : public Screen {
-//     public:
-//         ~runningScreen();
-//         void init(SDLWrapper* sdl);
-//         void handleEvents(SDLWrapper* sdl, SDL_Event& event) override;
-//         void update(SDLWrapper* sdl) override;
-//         void render(SDLWrapper* sdl) override;
-//         void clean();
+using Point = std::pair<int,int>;
 
-//     private:
-// };
+class runningScreen : public Screen {
+    public:
+        ~runningScreen();
+        void init(SDLWrapper* sdl);
+        void handleEvents(SDLWrapper* sdl, SDL_Event& event) override;
+        void update(SDLWrapper* sdl) override;
+        void render(SDLWrapper* sdl) override;
+        void free();
+
+    private:
+        //Just some colors that have a high contrast with black
+        SDL_Color bodyColors[7] = {
+            {255, 255, 0, 255},
+            {0, 255, 0, 255},
+            {0, 255, 255, 255},
+            {255, 0, 255},
+            {255, 0, 0},
+            {255, 165, 0},
+            {0, 0, 255}
+        };
+
+        advancedSimulation sim;
+        std::vector<std::vector<Point>> bodyPositions;
+};

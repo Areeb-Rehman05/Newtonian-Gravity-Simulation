@@ -1,6 +1,6 @@
 #include <Simulations/BasicSimulation.h>
 
-basicSimulation::basicSimulation(std::vector<std::shared_ptr<Body>> b, double sun) {
+basicSimulation::basicSimulation(std::vector<Body> b, double sun) {
     allBodies = b;
     sunMass = sun;
 }

@@ -8,7 +8,7 @@ AbstractSimulation::~AbstractSimulation() {
     
 }
 
-std::vector<std::shared_ptr<Body>> AbstractSimulation::getBodies() const {
+std::vector<Body> AbstractSimulation::getBodies() const {
     return allBodies;
 }
 
@@ -18,9 +18,9 @@ void AbstractSimulation::simulateBodyPosition(double dt, Body& b) {
 
 void AbstractSimulation::simulateFrame(double dt) {
     for(auto& body : allBodies) {
-        simulateBodyVelocity(dt, *body);
+        simulateBodyVelocity(dt, body);
     }
     for(auto& body : allBodies) {
-        simulateBodyPosition(dt, *body);
+        simulateBodyPosition(dt, body);
     }
 }

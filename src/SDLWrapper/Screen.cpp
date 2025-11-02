@@ -221,7 +221,7 @@ void runningScreen::update(SDLWrapper* sdl) {
         bodyPositions[count].push_back(temp);
         count++;
     }
-    sim.simulateFrame(0.01);
+    sim.simulateFrame(0.05);
 }
 
 void runningScreen::render(SDLWrapper* sdl) {

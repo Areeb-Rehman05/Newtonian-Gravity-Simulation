@@ -221,7 +221,7 @@ void runningScreen::update(SDLWrapper* sdl) {
         bodyPositions[count].push_back(temp);
         count++;
     }
-    sim.simulateFrame(0.05);
+    sim.simulateFrame(0.02);
 }
 
 void runningScreen::render(SDLWrapper* sdl) {
@@ -242,7 +242,7 @@ void runningScreen::render(SDLWrapper* sdl) {
         SDL_SetRenderDrawColor(sdl->getRenderer(), color.r, color.g, color.b, color.a);
 
         for (const auto &p : bodyPositions[count]) {
-            SDL_RenderDrawPoint(sdl->getRenderer(), static_cast<int>(p.first) + 720, static_cast<int>(p.second) + 450 );
+            SDL_RenderDrawPoint(sdl->getRenderer(), static_cast<int>(p.first) + 720, static_cast<int>(-p.second) + 450 );
         }
 
         count++;

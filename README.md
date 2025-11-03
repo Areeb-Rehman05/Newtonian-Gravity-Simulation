@@ -26,7 +26,7 @@ If you don't want to clone the repository you can also download the release buil
 
 At first it will ask you the Sun Mass and the desired amount of bodies in your simulation.
 
-The Sun is not a true celestial body that can move on its own, rather its the gravitational pull towards the center of the screen, hgiher mass means more pull towards the center of the screen.
+The Sun is not a true celestial body that can move on its own, rather its the gravitational pull towards the center of the screen, higher mass means more pull towards the center of the screen.
 
 <img width="1420" height="878" alt="image" src="https://github.com/user-attachments/assets/bb8a9273-5d99-4835-9a48-89ce8c0650fc" />
 

@@ -38,3 +38,8 @@ Finally when you add the final body the simulation will begin and all the bodies
 
 <img width="1418" height="879" alt="image" src="https://github.com/user-attachments/assets/7823bbd5-981c-45c7-8e18-f119f887027d" />
 
+# Known Issues
+
+- There are multiple issues with rendering the text boxes when inputting body positions and vectors however this doesn't seem to affect the actual running of the program as it still saves the user input
+- The simulation runs much faster on monitors with higher refresh rate.
+

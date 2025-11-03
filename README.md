@@ -20,7 +20,7 @@ Build the project using CMake.
 
 # Downloading the program without cloning
 
-If you don't want to clone the repository you can also download the release build. Simply navigate to the releases page and find the desired version and download the .zip. Extract the folder and navigate to solarSim and run solarSim.exe
+If you don't want to clone the repository you can also download the release build. Simply navigate to the releases page and find the desired version and download the .zip. Extract the folder and navigate to solarSim and run solarSim.exe (Currently this is only for windows installations)
 
 # Usage
 
